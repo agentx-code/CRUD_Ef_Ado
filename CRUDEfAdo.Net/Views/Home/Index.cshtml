@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<diV>
+    <h1 class="text-center text-decoration-underline">User Table</h1>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddModal">
+        Create User
+    </button>
+    <table class="table table-striped mt-4 ">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Images</th>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    
+                    <td>@item.Name</td>
+                    <td>@item.Email</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.Images))
+                        {
+                            <img src="@item.Images"
+                                 width="80"
+                                 height="80"
+                                 style="object-fit: cover;" />
+                        }
+                    </td>
+                    <td>@item.Address</td>
+                    <td>
+                        <button class="btn btn-warning EditBtn" data-Id="@item.Id" data-Name="@item.Name" data-Email="@item.Email" data-Password="@item.Password"
+                                data-Address="@item.Address" data-bs-toggle="modal" data-bs-target="#AddModal"> Edit
+                        </button>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-Id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</diV>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="AddModal" tabindex="-1" aria-labelledby="AddLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="ModalLabel">Create</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Create" asp-controller="Home" method="post" enctype="multipart/form-data">
+                    <input id="formId" name="Id" type="hidden" class="form-control"/>
+                    <label class="form-label">Name</label>
+                    <input id="formName" name="Name" class="form-control mb-2" placeholder="Enter your Name" />
+
+                    <label class="form-label">Email</label>
+                    <input id="formEmail" type="email" name="Email" class="form-control mb-2" placeholder="Enter your Email" />
+                    
+                    <label class="form-label">Password</label>
+                    <input id="formPassword" type="password" name="Password" class="form-control mb-2" placeholder="Enter your Password" />
+                    
+                    <label class="form-label">Address</label>
+                    <input id="formAddress" name="Address" class="form-control mb-2" placeholder="Enter your Address" />
+
+                    <label class="form-label">Upload Images </label>
+                    <input type="file" multiple name="Images" class="form-control" />
+
+                    <button id="btnSubmit" type="submit" class="btn btn-success mt-2">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
